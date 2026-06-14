@@ -115,10 +115,10 @@ export default function Ledger({ logs = [], onAddLog, onDeleteLog, onClearLogs }
 
   const getTabIcon = (tab) => {
     switch (tab) {
-      case 'transportation': return <Truck size={16} />;
-      case 'utilities': return <Zap size={16} />;
-      case 'diet': return <Utensils size={16} />;
-      case 'consumption': return <ShoppingBag size={16} />;
+      case 'transportation': return <Truck size={16} aria-hidden="true" />;
+      case 'utilities': return <Zap size={16} aria-hidden="true" />;
+      case 'diet': return <Utensils size={16} aria-hidden="true" />;
+      case 'consumption': return <ShoppingBag size={16} aria-hidden="true" />;
       default: return null;
     }
   };
@@ -130,16 +130,20 @@ export default function Ledger({ logs = [], onAddLog, onDeleteLog, onClearLogs }
       <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
         
         {/* Input Form Card */}
-        <div className="glass-panel" style={{ padding: '24px' }}>
-          <h2 style={{ fontSize: '1.4rem', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <ClipboardList style={{ color: 'var(--emerald)' }} /> Log Activities
+        <section className="glass-panel" style={{ padding: '24px' }} aria-labelledby="logging-title">
+          <h2 id="logging-title" style={{ fontSize: '1.4rem', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <ClipboardList style={{ color: 'var(--emerald)' }} aria-hidden="true" /> Log Activities
           </h2>
 
           {/* Form Tabs */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '8px', marginBottom: '20px' }}>
+          <div role="tablist" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '8px', marginBottom: '20px' }}>
             {['transportation', 'utilities', 'diet', 'consumption'].map((tab) => (
               <button
                 key={tab}
+                role="tab"
+                aria-selected={activeTab === tab}
+                aria-controls={`${tab}-panel`}
+                id={`${tab}-tab`}
                 onClick={() => setActiveTab(tab)}
                 style={{
                   display: 'flex',
@@ -169,10 +173,10 @@ export default function Ledger({ logs = [], onAddLog, onDeleteLog, onClearLogs }
             
             {/* Travel Specific Inputs */}
             {activeTab === 'transportation' && (
-              <>
+              <div role="tabpanel" id="transportation-panel" aria-labelledby="transportation-tab" style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                 <div>
-                  <label style={{ fontSize: '0.85rem', color: 'var(--text-muted)', display: 'block', marginBottom: '6px' }}>Transit Mode</label>
-                  <select className="form-select" value={travelMode} onChange={(e) => setTravelMode(e.target.value)}>
+                  <label htmlFor="travel-mode-select" style={{ fontSize: '0.85rem', color: 'var(--text-muted)', display: 'block', marginBottom: '6px' }}>Transit Mode</label>
+                  <select id="travel-mode-select" className="form-select" value={travelMode} onChange={(e) => setTravelMode(e.target.value)}>
                     <option value="gasolineCar">Gasoline Car (Standard)</option>
                     <option value="dieselCar">Diesel Car</option>
                     <option value="hybridCar">Hybrid Car</option>
@@ -184,8 +188,9 @@ export default function Ledger({ logs = [], onAddLog, onDeleteLog, onClearLogs }
                 </div>
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
                   <div>
-                    <label style={{ fontSize: '0.85rem', color: 'var(--text-muted)', display: 'block', marginBottom: '6px' }}>Distance (miles)</label>
+                    <label htmlFor="travel-distance-input" style={{ fontSize: '0.85rem', color: 'var(--text-muted)', display: 'block', marginBottom: '6px' }}>Distance (miles)</label>
                     <input
+                      id="travel-distance-input"
                       type="number"
                       required
                       min="0.1"
@@ -197,8 +202,9 @@ export default function Ledger({ logs = [], onAddLog, onDeleteLog, onClearLogs }
                     />
                   </div>
                   <div>
-                    <label style={{ fontSize: '0.85rem', color: 'var(--text-muted)', display: 'block', marginBottom: '6px' }}>Passengers</label>
+                    <label htmlFor="travel-passengers-input" style={{ fontSize: '0.85rem', color: 'var(--text-muted)', display: 'block', marginBottom: '6px' }}>Passengers</label>
                     <input
+                      id="travel-passengers-input"
                       type="number"
                       required
                       min="1"
@@ -208,23 +214,24 @@ export default function Ledger({ logs = [], onAddLog, onDeleteLog, onClearLogs }
                     />
                   </div>
                 </div>
-              </>
+              </div>
             )}
 
             {/* Utility Specific Inputs */}
             {activeTab === 'utilities' && (
-              <>
+              <div role="tabpanel" id="utilities-panel" aria-labelledby="utilities-tab" style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                 <div>
-                  <label style={{ fontSize: '0.85rem', color: 'var(--text-muted)', display: 'block', marginBottom: '6px' }}>Resource Type</label>
-                  <select className="form-select" value={utilityType} onChange={(e) => setUtilityType(e.target.value)}>
+                  <label htmlFor="utility-type-select" style={{ fontSize: '0.85rem', color: 'var(--text-muted)', display: 'block', marginBottom: '6px' }}>Resource Type</label>
+                  <select id="utility-type-select" className="form-select" value={utilityType} onChange={(e) => setUtilityType(e.target.value)}>
                     <option value="electricity">Electricity (kWh)</option>
                     <option value="gas">Natural Gas (therms)</option>
                     <option value="water">Water (gallons)</option>
                   </select>
                 </div>
                 <div>
-                  <label style={{ fontSize: '0.85rem', color: 'var(--text-muted)', display: 'block', marginBottom: '6px' }}>Amount Used</label>
+                  <label htmlFor="utility-value-input" style={{ fontSize: '0.85rem', color: 'var(--text-muted)', display: 'block', marginBottom: '6px' }}>Amount Used</label>
                   <input
+                    id="utility-value-input"
                     type="number"
                     required
                     min="0.1"
@@ -235,15 +242,15 @@ export default function Ledger({ logs = [], onAddLog, onDeleteLog, onClearLogs }
                     onChange={(e) => setUtilityValue(e.target.value)}
                   />
                 </div>
-              </>
+              </div>
             )}
 
             {/* Diet Specific Inputs */}
             {activeTab === 'diet' && (
-              <>
+              <div role="tabpanel" id="diet-panel" aria-labelledby="diet-tab" style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                 <div>
-                  <label style={{ fontSize: '0.85rem', color: 'var(--text-muted)', display: 'block', marginBottom: '6px' }}>Meal Profile</label>
-                  <select className="form-select" value={dietType} onChange={(e) => setDietType(e.target.value)}>
+                  <label htmlFor="diet-type-select" style={{ fontSize: '0.85rem', color: 'var(--text-muted)', display: 'block', marginBottom: '6px' }}>Meal Profile</label>
+                  <select id="diet-type-select" className="form-select" value={dietType} onChange={(e) => setDietType(e.target.value)}>
                     <option value="heavyMeat">Heavy Red Meat (Beef/Lamb)</option>
                     <option value="mixed">Mixed Meal (Fish, Poultry, Eggs)</option>
                     <option value="vegetarian">Vegetarian (Dairy, no meat)</option>
@@ -251,8 +258,9 @@ export default function Ledger({ logs = [], onAddLog, onDeleteLog, onClearLogs }
                   </select>
                 </div>
                 <div>
-                  <label style={{ fontSize: '0.85rem', color: 'var(--text-muted)', display: 'block', marginBottom: '6px' }}>Number of Meals</label>
+                  <label htmlFor="meals-count-input" style={{ fontSize: '0.85rem', color: 'var(--text-muted)', display: 'block', marginBottom: '6px' }}>Number of Meals</label>
                   <input
+                    id="meals-count-input"
                     type="number"
                     required
                     min="1"
@@ -261,15 +269,15 @@ export default function Ledger({ logs = [], onAddLog, onDeleteLog, onClearLogs }
                     onChange={(e) => setMealsCount(e.target.value)}
                   />
                 </div>
-              </>
+              </div>
             )}
 
             {/* Consumption Specific Inputs */}
             {activeTab === 'consumption' && (
-              <>
+              <div role="tabpanel" id="consumption-panel" aria-labelledby="consumption-tab" style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                 <div>
-                  <label style={{ fontSize: '0.85rem', color: 'var(--text-muted)', display: 'block', marginBottom: '6px' }}>Purchase/Action Item</label>
-                  <select className="form-select" value={consumptionType} onChange={(e) => setConsumptionType(e.target.value)}>
+                  <label htmlFor="consumption-type-select" style={{ fontSize: '0.85rem', color: 'var(--text-muted)', display: 'block', marginBottom: '6px' }}>Purchase/Action Item</label>
+                  <select id="consumption-type-select" className="form-select" value={consumptionType} onChange={(e) => setConsumptionType(e.target.value)}>
                     <option value="generalWaste">General Trash (Bag of Waste)</option>
                     <option value="electronics">New Electronics (Smartphone/Laptop)</option>
                     <option value="clothing">New Apparel/Clothing Item</option>
@@ -277,8 +285,9 @@ export default function Ledger({ logs = [], onAddLog, onDeleteLog, onClearLogs }
                   </select>
                 </div>
                 <div>
-                  <label style={{ fontSize: '0.85rem', color: 'var(--text-muted)', display: 'block', marginBottom: '6px' }}>Quantity</label>
+                  <label htmlFor="consumption-count-input" style={{ fontSize: '0.85rem', color: 'var(--text-muted)', display: 'block', marginBottom: '6px' }}>Quantity</label>
                   <input
+                    id="consumption-count-input"
                     type="number"
                     required
                     min="1"
@@ -287,24 +296,25 @@ export default function Ledger({ logs = [], onAddLog, onDeleteLog, onClearLogs }
                     onChange={(e) => setConsumptionCount(e.target.value)}
                   />
                 </div>
-              </>
+              </div>
             )}
 
             <button type="submit" className="btn-primary" style={{ marginTop: '10px' }}>
-              <PlusCircle size={18} /> Record Entry
+              <PlusCircle size={18} aria-hidden="true" /> Record Entry
             </button>
           </form>
-        </div>
+        </section>
 
         {/* Quick Log Templates Card */}
-        <div className="glass-panel" style={{ padding: '24px' }}>
-          <h3 style={{ fontSize: '1.2rem', marginBottom: '14px', color: 'var(--text-muted)' }}>Quick Add Templates</h3>
+        <section className="glass-panel" style={{ padding: '24px' }} aria-labelledby="templates-title">
+          <h3 id="templates-title" style={{ fontSize: '1.2rem', marginBottom: '14px', color: 'var(--text-muted)' }}>Quick Add Templates</h3>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
             {templates.map((tpl, i) => (
               <button
                 key={i}
                 onClick={tpl.run}
                 className="glass-panel"
+                aria-label={`Quick add log template: ${tpl.title} (${tpl.desc})`}
                 style={{
                   padding: '12px',
                   borderRadius: '12px',
@@ -332,19 +342,20 @@ export default function Ledger({ logs = [], onAddLog, onDeleteLog, onClearLogs }
               </button>
             ))}
           </div>
-        </div>
+        </section>
 
       </div>
 
       {/* Right Panel: Scrollable History */}
-      <div className="glass-panel" style={{ padding: '24px', display: 'flex', flexDirection: 'column', maxHeight: '585px' }}>
+      <section className="glass-panel" style={{ padding: '24px', display: 'flex', flexDirection: 'column', maxHeight: '585px' }} aria-labelledby="history-title">
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-          <h2 style={{ fontSize: '1.4rem', display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <h2 id="history-title" style={{ fontSize: '1.4rem', display: 'flex', alignItems: 'center', gap: '8px' }}>
             Carbon Entry Logbook
           </h2>
           {logs.length > 0 && (
             <button
               onClick={onClearLogs}
+              aria-label="Clear all carbon logs"
               style={{
                 background: 'transparent',
                 border: 'none',
@@ -364,7 +375,7 @@ export default function Ledger({ logs = [], onAddLog, onDeleteLog, onClearLogs }
 
         {logs.length === 0 ? (
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', flex: 1, color: 'var(--text-dark)', gap: '12px' }}>
-            <ClipboardList size={48} strokeWidth={1} />
+            <ClipboardList size={48} strokeWidth={1} aria-hidden="true" />
             <p style={{ textAlign: 'center', fontSize: '0.95rem' }}>Your logbook is currently empty. Record your first emissions activity on the left!</p>
           </div>
         ) : (
@@ -390,7 +401,7 @@ export default function Ledger({ logs = [], onAddLog, onDeleteLog, onClearLogs }
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', maxWidth: '75%' }}>
                   <div style={{ fontSize: '0.9rem', fontWeight: '600', color: 'var(--text-main)' }}>{log.details}</div>
                   <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: '4px' }}>
-                    <Calendar size={12} /> {log.date}
+                    <Calendar size={12} aria-hidden="true" /> {log.date}
                   </div>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
@@ -402,6 +413,7 @@ export default function Ledger({ logs = [], onAddLog, onDeleteLog, onClearLogs }
                   </div>
                   <button
                     onClick={() => onDeleteLog(log.id)}
+                    aria-label={`Delete entry for ${log.details}`}
                     style={{
                       background: 'transparent',
                       border: 'none',
@@ -413,14 +425,14 @@ export default function Ledger({ logs = [], onAddLog, onDeleteLog, onClearLogs }
                     onMouseOver={(e) => e.currentTarget.style.color = 'var(--accent-red)'}
                     onMouseOut={(e) => e.currentTarget.style.color = 'var(--text-dark)'}
                   >
-                    <Trash2 size={16} />
+                    <Trash2 size={16} aria-hidden="true" />
                   </button>
                 </div>
               </div>
             ))}
           </div>
         )}
-      </div>
+      </section>
 
     </div>
   );

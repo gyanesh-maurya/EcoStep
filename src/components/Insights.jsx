@@ -98,8 +98,8 @@ export default function Insights({ logs = [] }) {
     <div className="animate-fade-in" style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
       
       {/* Dynamic Recommendations Panel */}
-      <div className="glass-panel" style={{ padding: '24px', borderLeft: `6px solid ${currentPlan.color}` }}>
-        <h2 style={{ fontSize: '1.4rem', marginBottom: '8px', color: 'var(--text-main)' }}>
+      <section className="glass-panel" style={{ padding: '24px', borderLeft: `6px solid ${currentPlan.color}` }} aria-labelledby="advisor-recommendations-title">
+        <h2 id="advisor-recommendations-title" style={{ fontSize: '1.4rem', marginBottom: '8px', color: 'var(--text-main)' }}>
           {currentPlan.title}
         </h2>
         <p style={{ color: 'var(--text-muted)', fontSize: '0.95rem', marginBottom: '20px', lineHeight: '1.5' }}>
@@ -124,25 +124,25 @@ export default function Insights({ logs = [] }) {
                 fontWeight: 'bold',
                 flexShrink: 0,
                 marginTop: '2px'
-              }}>
+              }} aria-hidden="true">
                 {idx + 1}
               </div>
               <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)', lineHeight: '1.4' }}>{tip}</p>
             </div>
           ))}
         </div>
-      </div>
+      </section>
 
       {/* KPI Cards & Comparison Matrix */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '24px' }}>
         
         {/* KPI Panel */}
-        <div className="glass-panel" style={{ padding: '24px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
-          <h3 style={{ color: 'var(--text-muted)' }}>Eco-Efficiency KPIs</h3>
+        <section className="glass-panel" style={{ padding: '24px', display: 'flex', flexDirection: 'column', gap: '20px' }} aria-labelledby="kpis-title">
+          <h3 id="kpis-title" style={{ color: 'var(--text-muted)' }}>Eco-Efficiency KPIs</h3>
           
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
             <div className="glass-panel" style={{ padding: '16px', background: 'rgba(255,255,255,0.01)' }}>
-              <Activity size={20} style={{ color: 'var(--teal)', marginBottom: '8px' }} />
+              <Activity size={20} style={{ color: 'var(--teal)', marginBottom: '8px' }} aria-hidden="true" />
               <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Avg. Log Intensity</div>
               <div style={{ fontSize: '1.3rem', fontWeight: 'bold', fontFamily: 'var(--font-heading)', marginTop: '4px' }}>
                 {averageCo2PerLog.toFixed(1)} <span style={{ fontSize: '0.75rem' }}>kg</span>
@@ -150,7 +150,7 @@ export default function Insights({ logs = [] }) {
             </div>
 
             <div className="glass-panel" style={{ padding: '16px', background: 'rgba(255,255,255,0.01)' }}>
-              <Award size={20} style={{ color: 'var(--accent-purple)', marginBottom: '8px' }} />
+              <Award size={20} style={{ color: 'var(--accent-purple)', marginBottom: '8px' }} aria-hidden="true" />
               <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Total Entries</div>
               <div style={{ fontSize: '1.3rem', fontWeight: 'bold', fontFamily: 'var(--font-heading)', marginTop: '4px' }}>
                 {logs.length} <span style={{ fontSize: '0.75rem' }}>logs</span>
@@ -159,24 +159,24 @@ export default function Insights({ logs = [] }) {
           </div>
 
           <div className="glass-panel" style={{ padding: '16px', background: 'rgba(255,255,255,0.01)', display: 'flex', alignItems: 'center', gap: '12px' }}>
-            <Info size={24} style={{ color: 'var(--accent-blue)', flexShrink: 0 }} />
+            <Info size={24} style={{ color: 'var(--accent-blue)', flexShrink: 0 }} aria-hidden="true" />
             <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)', lineHeight: '1.4' }}>
               Your carbon efficiency score represents the weight of greenhouse gas emitted per logged life activity. Goal: minimize average log intensity.
             </div>
           </div>
-        </div>
+        </section>
 
         {/* Global Comparison Board */}
-        <div className="glass-panel" style={{ padding: '24px' }}>
-          <h3 style={{ color: 'var(--text-muted)', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <Globe size={18} style={{ color: 'var(--emerald)' }} /> Comparison Benchmarks (CO2 / Year)
+        <section className="glass-panel" style={{ padding: '24px' }} aria-labelledby="benchmarks-title">
+          <h3 id="benchmarks-title" style={{ color: 'var(--text-muted)', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <Globe size={18} style={{ color: 'var(--emerald)' }} aria-hidden="true" /> Comparison Benchmarks (CO2 / Year)
           </h3>
           
           <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '0.9rem' }}>
             <thead>
               <tr style={{ borderBottom: '1px solid var(--border-glow)', color: 'var(--text-muted)' }}>
-                <th style={{ padding: '10px 0', fontWeight: '500' }}>Baseline Entity</th>
-                <th style={{ padding: '10px 0', fontWeight: '500', textAlign: 'right' }}>Annual Target</th>
+                <th style={{ padding: '10px 0', fontWeight: '500' }} scope="col">Baseline Entity</th>
+                <th style={{ padding: '10px 0', fontWeight: '500', textAlign: 'right' }} scope="col">Annual Target</th>
               </tr>
             </thead>
             <tbody>
@@ -203,7 +203,7 @@ export default function Insights({ logs = [] }) {
           <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '12px', fontStyle: 'italic' }}>
             *Your projected annual score scales current logged totals to a 12-month outlook.
           </p>
-        </div>
+        </section>
 
       </div>
 

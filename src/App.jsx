@@ -150,22 +150,27 @@ export default function App() {
           zIndex: 100
         }}
         className="mobile-header"
+        role="banner"
       >
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <Leaf style={{ color: 'var(--emerald)' }} size={24} fill="var(--emerald)" />
+          <Leaf style={{ color: 'var(--emerald)' }} size={24} fill="var(--emerald)" aria-hidden="true" />
           <span style={{ fontSize: '1.2rem', fontFamily: 'var(--font-heading)', fontWeight: 'bold' }}>EcoStep</span>
         </div>
         <button
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          aria-expanded={mobileMenuOpen}
+          aria-label="Toggle Navigation Menu"
           style={{ background: 'transparent', border: 'none', color: 'var(--text-main)', cursor: 'pointer', display: 'flex' }}
         >
-          {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          {mobileMenuOpen ? <X size={24} aria-hidden="true" /> : <Menu size={24} aria-hidden="true" />}
         </button>
       </header>
 
       {/* Navigation Sidebar (Desktop & Mobile) */}
       <aside
         className={`glass-panel ${mobileMenuOpen ? 'mobile-open' : ''}`}
+        role="complementary"
+        aria-label="Sidebar Menu"
         style={{
           margin: '16px',
           padding: '24px 16px',
@@ -179,7 +184,7 @@ export default function App() {
           {/* Logo Section */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '0 8px' }}>
             <div style={{ background: 'var(--emerald-glow)', padding: '8px', borderRadius: '10px', color: 'var(--emerald)', display: 'flex' }}>
-              <Leaf size={24} fill="var(--emerald)" />
+              <Leaf size={24} fill="var(--emerald)" role="img" aria-label="EcoStep Logo" />
             </div>
             <span style={{ fontSize: '1.4rem', fontFamily: 'var(--font-heading)', fontWeight: 'bold', letterSpacing: '-0.03em' }} className="green-gradient">
               EcoStep
@@ -187,7 +192,7 @@ export default function App() {
           </div>
 
           {/* Navigation Links */}
-          <nav style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+          <nav aria-label="Sidebar navigation links" style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
             {navItems.map((item) => (
               <button
                 key={item.id}
@@ -196,6 +201,7 @@ export default function App() {
                   setMobileMenuOpen(false);
                 }}
                 className={`nav-link ${activeTab === item.id ? 'active' : ''}`}
+                aria-current={activeTab === item.id ? 'page' : undefined}
                 style={{ background: 'transparent', border: 'none', width: '100%', textAlign: 'left', font: 'inherit' }}
               >
                 {item.icon}
@@ -206,7 +212,7 @@ export default function App() {
         </div>
 
         {/* Sidebar Summary Card */}
-        <div className="glass-panel" style={{ padding: '16px', background: 'rgba(255,255,255,0.02)', borderRadius: '12px' }}>
+        <div className="glass-panel" style={{ padding: '16px', background: 'rgba(255,255,255,0.02)', borderRadius: '12px' }} aria-label={`Current Carbon Status Summary: net ${netFootprint.toFixed(1)} kg`}>
           <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', textTransform: 'uppercase', marginBottom: '8px' }}>Active Carbon Status</div>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '4px' }}>
             <span style={{ fontSize: '1.2rem', fontWeight: 'bold', fontFamily: 'var(--font-heading)' }}>
@@ -230,7 +236,7 @@ export default function App() {
       </aside>
 
       {/* Main Content Pane */}
-      <main style={{ padding: '32px 32px 32px 16px', overflowY: 'auto', maxHeight: '100vh' }} className="content-pane">
+      <main id="main-content" style={{ padding: '32px 32px 32px 16px', overflowY: 'auto', maxHeight: '100vh' }} className="content-pane">
         {renderContent()}
       </main>
 

@@ -19,9 +19,9 @@ export default function Guide({
   ];
 
   const offsetProjects = [
-    { id: 'p1', title: 'Amazon Reforestation', cost: 300, offset: 30, desc: 'Planting native trees to restore degraded rainforest land.', icon: <Trees size={24} style={{ color: 'var(--emerald)' }} /> },
-    { id: 'p2', title: 'Sahara Solar Initiative', cost: 500, offset: 60, desc: 'Installing grid-connected solar power arrays to replace coal.', icon: <Sun size={24} style={{ color: 'var(--accent-orange)' }} /> },
-    { id: 'p3', title: 'Patagonia Wind Farms', cost: 800, offset: 110, desc: 'Generating clean electricity in high-wind southern regions.', icon: <Wind size={24} style={{ color: 'var(--teal)' }} /> }
+    { id: 'p1', title: 'Amazon Reforestation', cost: 300, offset: 30, desc: 'Planting native trees to restore degraded rainforest land.', icon: <Trees size={24} style={{ color: 'var(--emerald)' }} aria-hidden="true" /> },
+    { id: 'p2', title: 'Sahara Solar Initiative', cost: 500, offset: 60, desc: 'Installing grid-connected solar power arrays to replace coal.', icon: <Sun size={24} style={{ color: 'var(--accent-orange)' }} aria-hidden="true" /> },
+    { id: 'p3', title: 'Patagonia Wind Farms', cost: 800, offset: 110, desc: 'Generating clean electricity in high-wind southern regions.', icon: <Wind size={24} style={{ color: 'var(--teal)' }} aria-hidden="true" /> }
   ];
 
   const badges = [
@@ -35,25 +35,25 @@ export default function Guide({
     <div className="animate-fade-in" style={{ display: 'flex', flexDirection: 'column', gap: '28px' }}>
       
       {/* Overview Points Card */}
-      <div className="glass-panel glow-emerald" style={{ padding: '24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '16px' }}>
+      <header className="glass-panel glow-emerald" style={{ padding: '24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '16px' }}>
         <div>
           <h2 style={{ fontSize: '1.6rem', marginBottom: '4px' }}>Green Guild Action Center</h2>
           <p style={{ color: 'var(--text-muted)' }}>Complete challenges to earn points, then spend them to fund carbon offset projects.</p>
         </div>
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }} aria-label={`Current Balance: ${points} Green Points`}>
           <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Your Balance</span>
           <span style={{ fontSize: '2rem', fontWeight: 'bold', color: 'var(--emerald)', fontFamily: 'var(--font-heading)', display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <Leaf size={24} fill="var(--emerald)" /> {points} <span style={{ fontSize: '0.9rem', color: 'var(--text-muted)' }}>GP</span>
+            <Leaf size={24} fill="var(--emerald)" aria-hidden="true" /> {points} <span style={{ fontSize: '0.9rem', color: 'var(--text-muted)' }}>GP</span>
           </span>
         </div>
-      </div>
+      </header>
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '24px' }}>
         
         {/* Active Challenges */}
-        <div className="glass-panel" style={{ padding: '24px' }}>
-          <h3 style={{ fontSize: '1.3rem', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <Compass style={{ color: 'var(--accent-blue)' }} /> Active Eco-Challenges
+        <section className="glass-panel" style={{ padding: '24px' }} aria-labelledby="active-challenges-heading">
+          <h3 id="active-challenges-heading" style={{ fontSize: '1.3rem', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <Compass style={{ color: 'var(--accent-blue)' }} aria-hidden="true" /> Active Eco-Challenges
           </h3>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
             {challenges.map((ch) => {
@@ -75,7 +75,7 @@ export default function Guide({
                 >
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                     <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
-                      <span style={{ fontSize: '1.4rem' }}>{ch.icon}</span>
+                      <span style={{ fontSize: '1.4rem' }} aria-hidden="true">{ch.icon}</span>
                       <div>
                         <h4 style={{ fontSize: '0.95rem', fontWeight: '600' }}>{ch.title}</h4>
                         <span style={{
@@ -101,12 +101,13 @@ export default function Guide({
                   
                   {isCompleted ? (
                     <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: 'var(--emerald)', fontSize: '0.8rem', fontWeight: '600', marginTop: '4px' }}>
-                      <ShieldCheck size={16} /> Completed
+                      <ShieldCheck size={16} aria-hidden="true" /> Completed
                     </div>
                   ) : isJoined ? (
                     <button
                       onClick={() => onCompleteChallenge(ch.id, ch.points, ch.reduction)}
                       className="btn-primary"
+                      aria-label={`Complete and submit task: ${ch.title}`}
                       style={{ padding: '6px 12px', fontSize: '0.8rem', borderRadius: '8px', alignSelf: 'flex-end' }}
                     >
                       Complete Action
@@ -115,6 +116,7 @@ export default function Guide({
                     <button
                       onClick={() => onJoinChallenge(ch.id)}
                       className="btn-secondary"
+                      aria-label={`Accept eco challenge: ${ch.title}`}
                       style={{ padding: '6px 12px', fontSize: '0.8rem', borderRadius: '8px', alignSelf: 'flex-end' }}
                     >
                       Accept Challenge
@@ -124,15 +126,15 @@ export default function Guide({
               );
             })}
           </div>
-        </div>
+        </section>
 
         {/* Offsetting & Badges */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
           
           {/* Points Store / Offset Simulator */}
-          <div className="glass-panel" style={{ padding: '24px' }}>
-            <h3 style={{ fontSize: '1.3rem', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <Leaf style={{ color: 'var(--emerald)' }} /> Spend GP (Offset Carbon)
+          <section className="glass-panel" style={{ padding: '24px' }} aria-labelledby="offset-store-heading">
+            <h3 id="offset-store-heading" style={{ fontSize: '1.3rem', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <Leaf style={{ color: 'var(--emerald)' }} aria-hidden="true" /> Spend GP (Offset Carbon)
             </h3>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
               {offsetProjects.map((p) => (
@@ -164,6 +166,7 @@ export default function Guide({
                       onClick={() => onBuyOffset(p.cost, p.offset)}
                       disabled={points < p.cost}
                       className="btn-primary"
+                      aria-label={`Fund ${p.title} project using ${p.cost} Green Points`}
                       style={{
                         padding: '4px 8px',
                         fontSize: '0.75rem',
@@ -178,18 +181,20 @@ export default function Guide({
                 </div>
               ))}
             </div>
-          </div>
+          </section>
 
           {/* Badges Accomplished */}
-          <div className="glass-panel" style={{ padding: '24px' }}>
-            <h3 style={{ fontSize: '1.3rem', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <Award style={{ color: 'var(--accent-purple)' }} /> Achievements Unlocked
+          <section className="glass-panel" style={{ padding: '24px' }} aria-labelledby="achievements-heading">
+            <h3 id="achievements-heading" style={{ fontSize: '1.3rem', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <Award style={{ color: 'var(--accent-purple)' }} aria-hidden="true" /> Achievements Unlocked
             </h3>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '12px' }}>
               {badges.map((b) => (
                 <div
                   key={b.id}
                   className="glass-panel badge-card"
+                  tabIndex={0}
+                  aria-label={`${b.name} badge. Status: ${b.unlocked ? 'Unlocked' : 'Locked'}. Requirement: ${b.desc}`}
                   style={{
                     display: 'flex',
                     flexDirection: 'column',
@@ -205,14 +210,14 @@ export default function Guide({
                   }}
                   title={b.desc}
                 >
-                  <span style={{ fontSize: '1.8rem', filter: b.unlocked ? 'none' : 'grayscale(100%)' }}>{b.icon}</span>
+                  <span style={{ fontSize: '1.8rem', filter: b.unlocked ? 'none' : 'grayscale(100%)' }} aria-hidden="true">{b.icon}</span>
                   <span style={{ fontSize: '0.7rem', fontWeight: '600', marginTop: '6px', whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden', width: '100%' }}>
                     {b.name}
                   </span>
                 </div>
               ))}
             </div>
-          </div>
+          </section>
 
         </div>
 
