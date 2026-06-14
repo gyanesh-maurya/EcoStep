@@ -1,5 +1,4 @@
-import React from 'react';
-import { ShieldCheck, Info, Award, Compass, HelpCircle, Activity, Globe, Compass as AlertCircle } from 'lucide-react';
+import { Info, Award, Activity, Globe } from 'lucide-react';
 
 export default function Insights({ logs = [] }) {
   // Aggregate category totals

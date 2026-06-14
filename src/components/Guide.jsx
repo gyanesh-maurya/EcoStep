@@ -1,5 +1,4 @@
-import React from 'react';
-import { Award, Leaf, Zap, ShieldCheck, Flame, Compass, ChevronRight, Trees, Sun, Wind } from 'lucide-react';
+import { Award, Leaf, ShieldCheck, Trees, Sun, Wind } from 'lucide-react';
 
 export default function Guide({
   points = 0,

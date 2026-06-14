@@ -1,5 +1,4 @@
-import React from 'react';
-import { Leaf, Flame, ShieldAlert, Award, Compass, TrendingDown } from 'lucide-react';
+import { Leaf, Flame, ShieldAlert, Award, TrendingDown } from 'lucide-react';
 
 export default function Dashboard({ logs = [], offsets = 0, target = 4000 }) {
   // Calculate category breakdowns

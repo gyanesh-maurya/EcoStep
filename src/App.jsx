@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Compass, ClipboardList, Leaf, BarChart2, CheckCircle2, ChevronRight, Menu, X } from 'lucide-react';
+import { Compass, ClipboardList, Leaf, BarChart2, Menu, X } from 'lucide-react';
 import Dashboard from './components/Dashboard';
 import Ledger from './components/Ledger';
 import Guide from './components/Guide';

@@ -23,7 +23,13 @@ describe('Carbon Calculator Business Logic Tests', () => {
       expect(calculateTransportation('hybridCar', distance, passengers)).toBe(expected);
     });
 
-    it('should handle zero or negative passengers gracefully', () => {
+    it('should default passengers to 1 when parameter is omitted', () => {
+      const distance = 50;
+      const expected = distance * EMISSION_FACTORS.transportation.gasolineCar;
+      expect(calculateTransportation('gasolineCar', distance)).toBe(expected);
+    });
+
+    it('should handle zero or negative passengers gracefully by treating them as solo rider', () => {
       const distance = 20;
       const expected = distance * EMISSION_FACTORS.transportation.electricCar;
       expect(calculateTransportation('electricCar', distance, 0)).toBe(expected);
@@ -34,6 +40,16 @@ describe('Carbon Calculator Business Logic Tests', () => {
       const distance = 1000;
       const expected = distance * EMISSION_FACTORS.transportation.flight;
       expect(calculateTransportation('flight', distance)).toBe(expected);
+    });
+
+    it('should return 0 emissions for an unknown transit mode', () => {
+      expect(calculateTransportation('teleportation', 100)).toBe(0);
+    });
+
+    it('should handle small fractional distances correctly', () => {
+      const distance = 0.5;
+      const expected = 0.5 * EMISSION_FACTORS.transportation.gasolineCar;
+      expect(calculateTransportation('gasolineCar', distance)).toBe(expected);
     });
   });
 
@@ -49,6 +65,10 @@ describe('Carbon Calculator Business Logic Tests', () => {
       const expected = therms * EMISSION_FACTORS.utilities.gas;
       expect(calculateUtilities('gas', therms)).toBe(expected);
     });
+
+    it('should return 0 emissions for an unknown utility resource', () => {
+      expect(calculateUtilities('nuclearFusion', 100)).toBe(0);
+    });
   });
 
   describe('Diet Calculations', () => {
@@ -62,6 +82,15 @@ describe('Carbon Calculator Business Logic Tests', () => {
       const meals = 5;
       const expected = meals * EMISSION_FACTORS.diet.vegan;
       expect(calculateDiet('vegan', meals)).toBe(expected);
+    });
+
+    it('should default count to 1 meal when count parameter is omitted', () => {
+      const expected = EMISSION_FACTORS.diet.vegetarian;
+      expect(calculateDiet('vegetarian')).toBe(expected);
+    });
+
+    it('should return 0 emissions for an unknown diet category', () => {
+      expect(calculateDiet('photosynthesis', 10)).toBe(0);
     });
   });
 
@@ -77,6 +106,15 @@ describe('Carbon Calculator Business Logic Tests', () => {
       const expected = items * EMISSION_FACTORS.consumption.recycling;
       expect(calculateConsumption('recycling', items)).toBeLessThan(0);
       expect(calculateConsumption('recycling', items)).toBe(expected);
+    });
+
+    it('should default count to 1 unit when count parameter is omitted', () => {
+      const expected = EMISSION_FACTORS.consumption.generalWaste;
+      expect(calculateConsumption('generalWaste')).toBe(expected);
+    });
+
+    it('should return 0 emissions for an unknown consumption item', () => {
+      expect(calculateConsumption('spaceDust', 5)).toBe(0);
     });
   });
 
